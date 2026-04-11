@@ -7,6 +7,18 @@ REPO="NIZU-io/heartbeat"
 BRANCH="main"
 BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH/dist"
 
+# Install dependencies silently
+DEPS="curl jq procps coreutils"
+if command -v apt-get &>/dev/null; then
+  apt-get install -y -qq $DEPS >/dev/null 2>&1
+elif command -v yum &>/dev/null; then
+  yum install -y -q $DEPS >/dev/null 2>&1
+elif command -v dnf &>/dev/null; then
+  dnf install -y -q $DEPS >/dev/null 2>&1
+elif command -v apk &>/dev/null; then
+  apk add --quiet $DEPS >/dev/null 2>&1
+fi
+
 # Detect OS
 OS="$(uname -s)"
 if [ "$OS" != "Linux" ]; then
